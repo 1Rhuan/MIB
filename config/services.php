@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'mp' => [
+        'token' => env('MP_ACCESS_TOKEN'),
+    ],
+
+    'discord' => [
+        'webhook' => env('DISCORD_WEBHOOK_URL'),
+    ],
+
 ];
