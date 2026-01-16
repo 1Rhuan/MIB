@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $fillable = [
-        'user_id',
         'order_id',
         'amount',
         'fee',
@@ -20,8 +19,6 @@ class Payment extends Model
         'provider',
         'provider_id',
         'provider_status',
-        'ip_address',
-        'user_agent',
     ];
 
     protected $casts = [
