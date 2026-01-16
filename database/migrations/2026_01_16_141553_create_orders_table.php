@@ -19,9 +19,8 @@ return new class extends Migration
                 ->constrained()
                 ->nullOnDelete();
             $table->string('email')->index();
-
+            $table->string('description');
             $table->decimal('amount', 10, 2);
-
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->enum('payment_method', ['credit_card', 'debit_card', 'pix', 'boleto']);
             $table->enum('payment_status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
