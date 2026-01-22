@@ -2,26 +2,27 @@
 
 namespace App\Payments\Gateways;
 
-use App\DTOs\PaymentResponseDto;
 use App\Payments\Builders\PixPayloadBuilder;
 use App\Payments\Contracts\PaymentGateway;
+use App\Payments\DTOs\PaymentResponseDto;
 use App\Payments\Exceptions\MercadoPagoApiException;
 use App\Payments\Http\PaymentHttpClient;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Str;
 
 class MercadoPagoGateway implements PaymentGateway
 {
     public function __construct(
         private readonly PixPayloadBuilder $payloadBuilder,
         private readonly PaymentHttpClient $http
-    ) {}
+    )
+    {
+    }
 
-    private string $url = "https://api.mercadopago.com/";
+    private string $url = "https://api.mercadopago.com";
 
     /**
+     * @param array $data
+     * @return PaymentResponseDto
      * @throws MercadoPagoApiException
-     * @throws ConnectionException
      */
     public function createPix(array $data): PaymentResponseDto
     {
@@ -32,7 +33,7 @@ class MercadoPagoGateway implements PaymentGateway
                 $this->url . '/v1/payments',
                 $payload,
                 [
-                    'Authorization' => 'Bearer ' . config('services.mercadopago.token'),
+                    'Authorization' => 'Bearer ' . config('services.mercadopago.access_token'),
                     'X-Idempotency-Key' => $payload['external_reference'],
                 ]
             );
@@ -43,9 +44,46 @@ class MercadoPagoGateway implements PaymentGateway
             );
         }
 
-        if (!array_key_exists('status', $response)) {
+        return $this->validateResponseApi($response);
+    }
+
+    /**
+     * @param string $paymentId
+     * @return PaymentResponseDto
+     * @throws MercadoPagoApiException
+     */
+    public function getPayment(string $paymentId): PaymentResponseDto
+    {
+        try {
+            $response = $this->http->get(
+                $this->url . '/v1/payments/' . $paymentId,
+                [
+                    'Authorization' => 'Bearer ' . config('services.mercadopago.access_token')
+                ]
+            );
+
+        } catch (\Throwable $e) {
             throw new MercadoPagoApiException(
-                message: 'Resposta inválida do Mercado Pago',
+                message: 'Falha de comunicação com o Mercado Pago',
+                previous: $e
+            );
+        }
+
+        return $this->validateResponseApi($response);
+    }
+
+    /**
+     * @param array $response
+     * @return PaymentResponseDto
+     * @throws MercadoPagoApiException
+     */
+    private function validateResponseApi(array $response): PaymentResponseDto
+    {
+        if (isset($response['error'])) {
+            throw new MercadoPagoApiException(
+                message: $response['message'] ?? 'Erro Mercado Pago',
+                httpStatus: $response['status'] ?? 500,
+                causes: $response['cause'] ?? []
             );
         }
 
@@ -58,10 +96,5 @@ class MercadoPagoGateway implements PaymentGateway
         }
 
         return PaymentResponseDto::fromMercadoPago($response);
-    }
-
-    public function getStatus(array $data)
-    {
-        // TODO: Implement getStatus() method.
     }
 }
