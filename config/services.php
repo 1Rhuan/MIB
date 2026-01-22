@@ -35,12 +35,12 @@ return [
         ],
     ],
 
-    'mp' => [
-        'token' => env('MP_ACCESS_TOKEN'),
+    'mercadopago' => [
+        'access_token' => env('MP_ACCESS_TOKEN'),
     ],
 
     'discord' => [
-        'webhook' => env('DISCORD_WEBHOOK_URL'),
+        'webhook_url' => env('DISCORD_WEBHOOK_URL'),
     ],
 
 ];
