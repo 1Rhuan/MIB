@@ -1,8 +1,9 @@
 <?php
 
-namespace App\DTOs;
+namespace App\Payments\DTOs;
 
-class PaymentResponseDto
+class
+PaymentResponseDto
 {
     public function __construct(
         public int $id,
@@ -84,7 +85,7 @@ class PaymentResponseDto
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
+            'mp_id' => $this->id,
             'date_created' => $this->dateCreated,
             'date_approved' => $this->dateApproved,
             'date_last_updated' => $this->dataLastUpdated,
