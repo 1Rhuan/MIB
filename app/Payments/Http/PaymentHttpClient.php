@@ -20,4 +20,19 @@ class PaymentHttpClient
             throw new ConnectionException($e->getMessage());
         }
     }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function get(string $url, array $headers = []): array
+    {
+        try {
+            return Http::withHeaders($headers)
+                ->get($url)
+                ->json();
+        } catch (ConnectionException $e) {
+            logger()->error($e->getMessage());
+            throw new ConnectionException($e->getMessage());
+        }
+    }
 }
