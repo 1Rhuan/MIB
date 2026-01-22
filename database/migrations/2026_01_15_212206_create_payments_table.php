@@ -13,33 +13,41 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->ulid('reference')->unique();
-
-            $table->foreignId('order_id')
-                ->nullable()
-                ->constrained()
-                ->nullOnDelete();
-
-            $table->decimal('amount', 10, 2);
-            $table->decimal('fee', 10, 2)->nullable();
-            $table->decimal('net_amount', 10, 2)->nullable();
-
-            $table->enum('payment_method', ['credit_card', 'debit_card', 'pix', 'boleto']);
-            $table->enum('status', ['pending', 'approved', 'cancelled', 'failed']);
-
-            $table->string('provider')->default('MercadoPago');
-            $table->string('provider_id', 100);
-            $table->string('provider_preference_id', 100)->nullable();
-            $table->enum('provider_status', ['approved', 'rejected', 'pending', 'in_process']);
-
-            $table->timestamp('expires_at')->nullable();
-            $table->timestamp('paid_at')->nullable();
-            $table->timestamp('cancelled_at')->nullable();
-            $table->timestamp('refunded_at')->nullable();
-
-            $table->json('provider_payload')->nullable();
-
+            $table->unsignedBigInteger('mp_id')->unique();
+            $table->string('status');
+            $table->string('status_detail');
+            $table->string('date_created');
+            $table->string('date_last_updated');
+            $table->string('date_approved')->nullable();
+            $table->string('date_of_expiration')->nullable();
+            $table->string('money_release_date')->nullable();
+            $table->decimal('transaction_amount', 10, 2);
+            $table->decimal('transaction_amount_refunded', 10, 2)->default(0);
+            $table->decimal('taxes_amount', 10, 2)->default(0);
+            $table->decimal('net_received_amount', 10, 2)->default(0);
+            $table->decimal('total_paid_amount', 10, 2)->default(0);
+            $table->decimal('fee_amount', 10, 2)->nullable();
+            $table->string('currency_id', 10);
+            $table->string('counter_currency')->nullable();
+            $table->string('payment_method_id');
+            $table->string('payment_type_id');
+            $table->string('payment_method_reference_id')->nullable();
+            $table->string('authorization_code')->nullable();
+            $table->string('operation_type');
+            $table->string('money_release_status');
+            $table->string('money_release_schema')->nullable();
+            $table->string('issuer_id');
+            $table->string('collector_id');
+            $table->string('external_reference')->nullable();
+            $table->string('external_resource_url')->nullable();
+            $table->string('statement_descriptor')->nullable();
+            $table->longText('qr_code_base64')->nullable();
+            $table->text('qr_code')->nullable();
+            $table->string('ticket_url')->nullable();
+            $table->boolean('live_mode');
             $table->timestamps();
+
+            $table->index('external_reference');
         });
     }
 
