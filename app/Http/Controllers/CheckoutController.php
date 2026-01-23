@@ -19,33 +19,12 @@ class CheckoutController extends Controller
 
     public function store(PixPaymentRequest $request)
     {
-        $data = $request->validated();
-
-        $item = Item::findOrFail($data['item_id']);
-
-        $user = user::updateOrCreate([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'steam_id' => $data['steam_id'],
-            'nickname' => $data['nickname'],
-        ]);
-
-        $order = Order::create([
-            'reference' => Str::ulid(),
-            'user_id' => $user->id,
-            'item_id' => $data['item_id'],
-            'amount' => $item->price,
-        ]);
-
         $paymentData = [
-            'reference'   => (string) $order->reference,
-            'description' => $item->description,
-            'item_name'  => $item->name,
-            'first_name' => $user->first_name,
-            'last_name'  => $user->last_name,
-            'email'      => $user->email,
-            'amount'     => (float) $order->amount,
+            'reference'   => (string) Str::ulid(),
+            'description' => "TEST PAYMENT",
+            'item_name'  => "TEST PAYMENT",
+            'email'      => "TESTEMAIL@gmail.com",
+            'amount'     => 12.9,
         ];
 
         $response = $this->paymentGateway->createPix($paymentData);
