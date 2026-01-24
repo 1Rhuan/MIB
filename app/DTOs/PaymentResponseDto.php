@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Payments\DTOs;
+namespace App\DTOs;
 
 class
 PaymentResponseDto
@@ -9,7 +9,7 @@ PaymentResponseDto
         public int $id,
         public string $dateCreated,
         public ?string $dateApproved,
-        public string $dataLastUpdated,
+        public string $dateLastUpdated,
         public ?string $dateExpiration,
         public ?string $moneyReleaseDate,
         public string $moneyReleaseStatus,
@@ -21,7 +21,7 @@ PaymentResponseDto
         public string $statusDetail,
         public string $currencyId,
         public ?string $description,
-        public string $liveMode,
+        public bool $liveMode,
         public ?int $authorizationCode,
         public ?string $moneyReleaseSchema,
         public float $taxesAmount,
@@ -48,7 +48,7 @@ PaymentResponseDto
             id: $data['id'],
             dateCreated: $data['date_created'],
             dateApproved: $data['date_approved'],
-            dataLastUpdated: $data['date_last_updated'],
+            dateLastUpdated: $data['date_last_updated'],
             dateExpiration: $data['date_of_expiration'],
             moneyReleaseDate: $data['money_release_date'],
             moneyReleaseStatus: $data['money_release_status'],
@@ -73,7 +73,7 @@ PaymentResponseDto
             netReceivedAmount: data_get($data, 'transaction_details.net_received_amount'),
             totalPaidAmount: data_get($data, 'transaction_details.total_paid_amount'),
             feeType: data_get($data, 'transaction_details.fee_type'),
-            feeAmount: data_get($data, 'transaction_details.fee_amount'),
+            feeAmount: data_get($data, 'transaction_details.fee_amount', 0),
             statementDescriptor: $data['statement_descriptor'],
             externalResourceUrl: data_get($data, 'transaction_details.external_resource_url'),
             qrCodeBase64: data_get($data, 'point_of_interaction.transaction_data.qr_code_base64'),
@@ -85,11 +85,11 @@ PaymentResponseDto
     public function toArray(): array
     {
         return [
-            'mp_id' => $this->id,
+            'gateway_payment_id' => $this->id,
             'date_created' => $this->dateCreated,
             'date_approved' => $this->dateApproved,
-            'date_last_updated' => $this->dataLastUpdated,
-            'date_of_expiration' => $this->dateExpiration,
+            'date_last_updated' => $this->dateLastUpdated,
+            'date_expiration' => $this->dateExpiration,
             'money_release_date' => $this->moneyReleaseDate,
             'money_release_status' => $this->moneyReleaseStatus,
             'operation_type' => $this->operationType,

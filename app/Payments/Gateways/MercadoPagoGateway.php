@@ -2,9 +2,9 @@
 
 namespace App\Payments\Gateways;
 
+use App\DTOs\PaymentResponseDto;
 use App\Payments\Builders\PixPayloadBuilder;
 use App\Payments\Contracts\PaymentGateway;
-use App\Payments\DTOs\PaymentResponseDto;
 use App\Payments\Exceptions\MercadoPagoApiException;
 use App\Payments\Http\PaymentHttpClient;
 

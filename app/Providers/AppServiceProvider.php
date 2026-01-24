@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Payment;
+use App\Observers\PaymentObserver;
 use App\Payments\Contracts\PaymentGateway;
 use App\Payments\Gateways\MercadoPagoGateway;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Payment::observe(PaymentObserver::class);
     }
 }
