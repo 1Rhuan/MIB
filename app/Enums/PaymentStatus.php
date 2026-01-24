@@ -5,7 +5,9 @@ namespace App\Enums;
 enum PaymentStatus: string
 {
     case PENDING = 'pending';
-    case COMPLETED = 'completed';
-    case PROCESSING = 'processing';
+    case APPROVED = 'approved';
+    case IN_PROCESSING = 'in_processing';
+    case REJECTED = 'rejected';
     case CANCELLED = 'cancelled';
+    case EXPIRED = 'expired';
 }
