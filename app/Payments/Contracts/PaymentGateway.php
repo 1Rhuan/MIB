@@ -2,7 +2,8 @@
 
 namespace App\Payments\Contracts;
 
-use App\Payments\DTOs\PaymentResponseDto;
+
+use App\DTOs\PaymentResponseDto;
 
 /**
  * @returns PaymentResponseDto
