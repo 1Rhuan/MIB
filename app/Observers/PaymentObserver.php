@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+ use App\Enums\OrderStatus;
  use App\Enums\PaymentStatus;
  use App\Jobs\SendPaymentNotificationJob;
  use App\Models\Payment;
@@ -22,6 +23,10 @@ namespace App\Observers;
         if ($payment->status !== PaymentStatus::APPROVED) {
             return;
         }
+
+        $payment->order()->update([
+            'status' => OrderStatus::PAID
+        ]);
 
         SendPaymentNotificationJob::dispatch($payment->id);
     }
