@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('gateway_payment_id')->unique();
+            $table->foreignId('order_id')->constrained();
             $table->string('status');
             $table->string('status_detail');
             $table->timestamp('date_created');
@@ -49,8 +50,7 @@ return new class extends Migration
             $table->boolean('live_mode')->default(false);
             $table->timestamps();
 
-            $table->index('external_reference');
-            $table->index('gateway_payment_id');
+            $table->index(['external_reference', 'gateway_payment_id', 'order_id']);
         });
     }
 
