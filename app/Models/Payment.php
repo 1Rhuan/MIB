@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static find(int $paymentId)
@@ -15,6 +16,7 @@ class Payment extends Model
         'gateway_payment_id',
         'status',
         'status_detail',
+        'order_id',
     ];
 
     protected $casts = [
@@ -51,5 +53,10 @@ class Payment extends Model
             ],
             true
         );
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 }
