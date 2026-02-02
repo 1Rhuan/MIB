@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,11 +13,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Order extends Model
 {
+
+    use HasUlids;
+
     protected $fillable = [
-        'reference',
         'customer_id',
-        'status',
         'total_amount',
+    ];
+
+    protected $hidden = [
+        'id',
+        'customer_id',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $attributes = [
+        'status' => OrderStatus::PENDING,
     ];
 
     protected $casts = [
