@@ -14,7 +14,7 @@ class Order extends Model
 {
     protected $fillable = [
         'reference',
-        'user_id',
+        'customer_id',
         'status',
         'total_amount',
     ];
@@ -26,7 +26,7 @@ class Order extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function orderItems(): HasMany
