@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Payment extends Model
 {
     protected $fillable = [
-        'payment_id',
+        'gateway_id',
         'order_id',
         'status',
         'status_detail',
