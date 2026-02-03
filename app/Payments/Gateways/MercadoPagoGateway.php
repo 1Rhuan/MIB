@@ -2,6 +2,7 @@
 
 namespace App\Payments\Gateways;
 
+use App\DTOs\PaymentRequestDto;
 use App\DTOs\PaymentResponseDto;
 use App\Payments\Builders\PixPayloadBuilder;
 use App\Payments\Contracts\PaymentGateway;
@@ -14,19 +15,18 @@ class MercadoPagoGateway implements PaymentGateway
         private readonly PixPayloadBuilder $payloadBuilder,
         private readonly PaymentHttpClient $http
     )
-    {
-    }
+    {}
 
     private string $url = "https://api.mercadopago.com";
 
     /**
-     * @param array $data
+     * @param PaymentRequestDto $paymentRequestDto
      * @return PaymentResponseDto
      * @throws MercadoPagoApiException
      */
-    public function createPix(array $data): PaymentResponseDto
+    public function createPix(PaymentRequestDto $paymentRequestDto): PaymentResponseDto
     {
-        $payload = $this->payloadBuilder->build($data);
+        $payload = $this->payloadBuilder->build($paymentRequestDto);
 
         try {
             $response = $this->http->post(
@@ -34,7 +34,7 @@ class MercadoPagoGateway implements PaymentGateway
                 $payload,
                 [
                     'Authorization' => 'Bearer ' . config('services.mercadopago.access_token'),
-                    'X-Idempotency-Key' => $payload['external_reference'],
+                    'X-Idempotency-Key' => $paymentRequestDto->orderReference,
                 ]
             );
         } catch (\Throwable $e) {
