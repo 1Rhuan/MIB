@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('gateway_payment_id')->unique();
-            $table->foreignId('order_id')->constrained();
+            $table->unsignedBigInteger('gateway_id')->unique();
+            $table->foreignId('order_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('status');
             $table->string('status_detail');
             $table->timestamp('date_created');

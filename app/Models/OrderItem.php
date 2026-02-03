@@ -29,4 +29,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function sum(): float
+    {
+        return $this->unit_price * $this->quantity;
+    }
 }

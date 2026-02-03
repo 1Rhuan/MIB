@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\CreateOrderService;
+use App\DTOs\CreateOrderDto;
+use App\Http\Requests\CreateOrderRequest;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     public function __construct(
-        private readonly CreateOrderService $createOrderService
+        private readonly OrderService $OrderService
     )
     {}
 
-    public function __invoke(Request $request)
+    public function create(CreateOrderRequest $request)
     {
-        $data = $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
-            'email'      => ['required', 'email'],
-            'name'       => ['required', 'string'],
-            'nickname'   => ['required', 'string'],
-            'steam_id'   => ['nullable', 'string'],
-            'quantity'   => ['required', 'integer', 'min:1'],
-        ]);
+        $data = $request->validated();
 
-        return $this->createOrderService->createOrder($data);
+        return $this->OrderService->createOrder(
+            CreateOrderDto::fromArray($data)
+        );
     }
 }

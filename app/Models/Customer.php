@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static firstOrCreate(array $array, array $array1)
+ * @method static updateOrCreate(array $array, array $array1)
  */
 class Customer extends Model
 {

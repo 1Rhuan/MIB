@@ -17,23 +17,45 @@ class ProductSeeder extends Seeder
     {
         Product::insert([
             [
-                'name' => 'Produto A',
+                'name' => 'VIP Quinzenal',
                 'reference' => Str::ulid(),
-                'description' => 'Descrição do produto A',
-                'price' => 0.01,
-                'active' => true,
+                'description' => 'Sem filas no servidor por 15 dias',
+                'price' => 9.9,
+                'active' => false,
+                'category' => 'services',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Produto B',
+                'name' => 'VIP Mensal',
                 'reference' => Str::ulid(),
-                'description' => 'Descrição do produto B',
-                'price' => 99.90,
+                'description' => 'Sem filas no servidor por 1 mês',
+                'price' => 15.0,
                 'active' => true,
+                'category' => 'services',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'VIP Trimestral',
+                'reference' => Str::ulid(),
+                'description' => 'Sem filas no servidor da por 3 mêses',
+                'price' => 40.0,
+                'active' => true,
+                'category' => 'services',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'VIP Semestral',
+                'reference' => Str::ulid(),
+                'description' => 'Sem filas no servidor da por 6 mêses',
+                'price' => 79.0,
+                'active' => true,
+                'category' => 'services',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ]);
     }
 }

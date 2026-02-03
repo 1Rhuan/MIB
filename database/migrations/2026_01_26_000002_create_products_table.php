@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->ulid('reference')->unique();
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('image')->nullable();
+            $table->string('description');
+            $table->string('category');
             $table->decimal('price', 10, 2);
             $table->boolean('active')->default(true);
             $table->timestamps();
