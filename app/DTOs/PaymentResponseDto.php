@@ -6,7 +6,7 @@ class
 PaymentResponseDto
 {
     public function __construct(
-        public int $id,
+        public int $gatewayId,
         public string $dateCreated,
         public ?string $dateApproved,
         public string $dateLastUpdated,
@@ -45,7 +45,7 @@ PaymentResponseDto
     public static function fromMercadoPago(array $data): self
     {
         return new self(
-            id: $data['id'],
+            gatewayId: $data['id'],
             dateCreated: $data['date_created'],
             dateApproved: $data['date_approved'],
             dateLastUpdated: $data['date_last_updated'],
@@ -85,7 +85,7 @@ PaymentResponseDto
     public function toArray(): array
     {
         return [
-            'gateway_payment_id' => $this->id,
+            'gateway_id' => $this->gatewayId,
             'date_created' => $this->dateCreated,
             'date_approved' => $this->dateApproved,
             'date_last_updated' => $this->dateLastUpdated,
