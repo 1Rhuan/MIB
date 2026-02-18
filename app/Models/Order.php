@@ -6,17 +6,22 @@ use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static create(array $array)
  */
 class Order extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'customer_id',
+        'product_id',
+        'payment_method',
+        'status',
         'total_amount',
+        'reference',
     ];
 
     protected $hidden = [
@@ -26,41 +31,28 @@ class Order extends Model
         'updated_at',
     ];
 
-    protected $attributes = [
-        'status' => OrderStatus::PENDING,
-    ];
-
     protected $casts = [
         'total_amount' => 'decimal:2',
         'status' => OrderStatus::class,
     ];
-
-    protected static function booted()
-    {
-        static::creating(function (Order $order) {
-            if (empty($order->reference)) {
-                $order->reference = (string) Str::ulid();
-            }
-        });
-    }
 
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    public function orderItems(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function orderTarget(): HasOne
-    {
-        return $this->hasOne(OrderTarget::class);
-    }
-
-    public function payments(): HasMany
+    public function payment(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function shipping(): HasMany
+    {
+        return $this->hasMany(OrderDestinations::class);
     }
 }
