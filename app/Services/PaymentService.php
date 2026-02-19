@@ -59,7 +59,7 @@ class PaymentService
                 'last_name' => $order->customer->last_name,
                 'email' => $order->customer->email,
             ],
-            'notification_url' => Route('webhooks.mercadopago.payments'),
+            'notification_url' => Route('webhook .mercadopago.payments'),
             'date_of_expiration' => Carbon::now()
                 ->addMinutes(30)
                 ->format('Y-m-d\TH:i:s.vP'),
