@@ -10,13 +10,13 @@ class PaymentController extends Controller
 {
     public function show(string $reference)
     {
-        $order = Order::where('reference', $reference)->first();
+        $order = Order::where('reference', $reference)->firstOrFail();
 
         if (! $order) {
             return redirect()->route('home');
         }
 
-        $payment = $order->payment->first();
+        $payment = $order->payment()->firstOrFail();
         $product = $order->product;
 
         if ($order->status === OrderStatus::PAID) {
