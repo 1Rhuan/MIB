@@ -28,8 +28,8 @@ class ChekoutRequest extends FormRequest
             'product_slug' => ['required', 'string', 'exists:products,slug'],
             'name' => ['required', 'string', new FullNameRule],
             'email' => ['required', 'email'],
-            'player_id' => ['required', 'string'],
-            'platform' => ['required', 'min:5', 'max:75', Rule::in(ShippingPlatform::values())],
+            'player_id' => ['required', 'string', 'min:5', 'max:150'],
+            'platform' => ['required', 'string', Rule::in(ShippingPlatform::values())],
             'terms' => ['accepted'],
         ];
     }
