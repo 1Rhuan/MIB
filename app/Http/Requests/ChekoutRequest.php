@@ -30,6 +30,7 @@ class ChekoutRequest extends FormRequest
             'email' => ['required', 'email'],
             'player_id' => ['required', 'string'],
             'platform' => ['required', 'min:5', 'max:75', Rule::in(ShippingPlatform::values())],
+            'terms' => ['accepted'],
         ];
     }
 
@@ -44,6 +45,7 @@ class ChekoutRequest extends FormRequest
             'player_id.required' => 'O player id e obrigatório',
             'platform.required' => 'Selecione uma plataforma.',
             'platform.in' => 'Plataforma inválida.',
+            'terms.accepted' => 'Você deve aceitar os termos e condições.',
         ];
     }
 }

@@ -23,7 +23,7 @@ class CheckoutController extends Controller
     public function process(ChekoutRequest $request)
     {
         $data = $request->validated();
-        $product = Product::where('slug', $data['product_slug'])->first();
+        $product = Product::where('slug', $data['product_slug'])->firstOrFail();
         $response = $this->checkoutService->process($product, $data);
 
         return redirect()->route('order.payment', ['reference' => $response]);

@@ -27,6 +27,9 @@ class CheckoutService
         );
 
         $order = $this->orderService->create($product, $customer, $data);
+
+        $this->paymentService->create($order, $product);
+
         return $order->reference;
     }
 }
