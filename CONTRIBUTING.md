@@ -35,7 +35,7 @@ Se você deseja configurar o projeto na sua máquina, siga estes passos:
 ### 1. Clone o Repositório
 Primeiro, clone este repositório localmente:
 ```bash
-git clone https://github.com/<owner>/<repo>.git
+git clone https://github.com/1rhuan/MIB.git
 ```
 
 ### 2. Instale as Dependências
