@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static find(int $paymentId)
@@ -12,54 +13,30 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Payment extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
-        'gateway_id',
+        'external_payment_id',
         'order_id',
+        'external_reference',
         'status',
         'status_detail',
-        'date_created',
-        'date_last_updated',
-        'date_approved',
-        'date_expiration',
-        'money_release_date',
         'transaction_amount',
-        'transaction_amount_refunded',
-        'taxes_amount',
-        'net_received_amount',
-        'total_paid_amount',
-        'fee_type',
         'fee_amount',
-        'currency_id',
-        'counter_currency',
-        'description',
-        'payment_method_id',
-        'payment_type_id',
-        'payment_method_reference_id',
-        'authorization_code',
-        'operation_type',
-        'money_release_status',
-        'money_release_schema',
-        'issuer_id',
-        'collector_id',
-        'external_reference',
-        'external_resource_url',
-        'statement_descriptor',
+        'payment_method',
         'qr_code_base64',
         'qr_code',
-        'ticket_url',
-        'live_mode',
+        'date_created',
+        'date_approved',
+        'date_expiration',
     ];
 
     protected $casts = [
-        'transaction_amount'  => 'decimal:2',
-        'net_received_amount' => 'decimal:2',
-        'total_paid_amount'   => 'decimal:2',
+        'transaction_amount' => 'decimal:2',
+        'fee_amount' => 'decimal:2',
         'date_created' => 'datetime',
-        'date_last_updated' => 'datetime',
         'date_approved' => 'datetime',
         'date_expiration' => 'datetime',
-        'money_release_date' => 'datetime',
-        'live_mode'   => 'boolean',
         'status' => PaymentStatus::class,
     ];
 
