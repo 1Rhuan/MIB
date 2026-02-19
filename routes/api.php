@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MercadoPagoWebhookController;
 use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')
     ->group(function () {
