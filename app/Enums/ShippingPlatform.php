@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-enum ShippingPlatform : string
+enum ShippingPlatform: string
 {
     case STEAM = 'steam';
-    case EPICGAMES = 'epic_games';
     case XBOX = 'xbox';
+    case EPICGAMES = 'epic_games';
 
     public static function values(): array
     {
