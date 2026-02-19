@@ -1,6 +1,6 @@
 <?php
 
-namespace App\config;
+namespace App\Configs;
 
 use MercadoPago\Exceptions\InvalidArgumentException;
 use MercadoPago\MercadoPagoConfig;
