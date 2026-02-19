@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\DTOs\CreateOrderDto;
-use App\Http\Requests\CreateOrderRequest;
-use App\Services\OrderService;
-use Illuminate\Http\Request;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function __construct(
-        private readonly OrderService $OrderService
-    )
-    {}
-
-    public function create(CreateOrderRequest $request)
+    public function status(string $reference)
     {
-        $data = $request->validated();
+        $order = Order::where('reference', $reference)->firstOrFail();
 
-        return $this->OrderService->createOrder(
-            CreateOrderDto::fromArray($data)
-        );
+        if (! $order) {
+            return response()->noContent(404);
+        }
+
+        return response()->json([
+            'status' => $order->status,
+        ]);
     }
 }
