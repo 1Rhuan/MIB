@@ -15,7 +15,7 @@ class PaymentService
         public MercadoPagoGateway $paymentGateway
     ) {}
 
-    public function create(Order $order, Product $product)
+    public function create(Order $order, Product $product): ?Payment
     {
         $payload = $this->buildPayload($order, $product);
 
@@ -59,7 +59,7 @@ class PaymentService
                 'last_name' => $order->customer->last_name,
                 'email' => $order->customer->email,
             ],
-            'notification_url' => Route('webhooks.mercadopago.payments'),
+            'notification_url' => 'https://php.rhuan.cc/api/webhook/payments', //Route('webhooks.mercadopago.payments'),
             'date_of_expiration' => Carbon::now()
                 ->addMinutes(30)
                 ->format('Y-m-d\TH:i:s.vP'),
