@@ -44,6 +44,10 @@ return [
     'max_retries' => env('MERCADOPAGO_MAX_RETRIES', 2),
 
 
+
+    'webhook_secret' => env('MERCADOPAGO_WEBHOOK_SECRET'),
+
+
     /*
     |--------------------------------------------------------------------------
     | URLs de Callback
@@ -52,7 +56,7 @@ return [
     | URLs para notificações de webhook e retorno.
     |
     */
-    'webhook_url' => env('MERCADOPAGO_WEBHOOK_URL', '/api/webhooks/payments/mercadopago'),
+    'webhook_url' => env('MERCADOPAGO_WEBHOOK_URL', '/webhook/payments'),
     'success_url' => env('MERCADOPAGO_SUCCESS_URL', '/pagamento/sucesso'),
     'failure_url' => env('MERCADOPAGO_FAILURE_URL', '/pagamento/falha'),
     'pending_url' => env('MERCADOPAGO_PENDING_URL', '/pagamento/pendente'),
