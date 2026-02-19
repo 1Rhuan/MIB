@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Actions;
 
 use Illuminate\Support\Facades\Http;
 
@@ -14,6 +14,15 @@ class SendDiscordWebhook
             return;
         }
 
-        Http::post($webhookUrl, $payload);
+        $response = Http::timeout(5)
+            ->retry(3, 200)
+            ->post($webhookUrl, $payload);
+
+        if ($response->failed()) {
+            \Log::error('Discord webhook failed', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+        }
     }
 }
