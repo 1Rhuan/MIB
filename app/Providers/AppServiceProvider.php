@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\PaymentGateway;
+use App\Gateways\MercadoPagoGateway;
 use App\Models\Payment;
 use App\Observers\PaymentObserver;
-use App\Payments\Contracts\PaymentGateway;
-use App\Payments\Gateways\MercadoPagoGateway;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
