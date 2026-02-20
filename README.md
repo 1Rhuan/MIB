@@ -44,6 +44,7 @@ O **MIB Platform** é uma aplicação web construída com Laravel, projetada par
 
 - Docker & Docker compose
 - NodeJs
+- NPM
 - Conta [Mercado Pago Developers](https://www.mercadopago.com.br/developers)
 
 ## Como  Subir o ambiente
@@ -81,12 +82,6 @@ DISCORD_INVITE_URL=
 YOUTUBE_CHANNEL_URL=
 ```
 
-
-No linux de permissão
-```sh
-sudo chmod -R 777 .
-```
-
 Acesse o container app
 ```sh
 docker compose exec app bash
@@ -109,12 +104,29 @@ touch database/database.sqlite
 
 Rodar as migrations
 ```sh
-php artisan migrate
+php artisan migrate --seed
 ```
 
 Iniciar a fila
 ```sh
 nohup php artisan queue:work > storage/logs/queue.log 2>&1 &
+```
+
+Sair do terminal do conteiner
+```sh
+exit
+```
+
+### Rodar frontend
+
+Instalar dependencias
+```sh
+npm install
+```
+
+Build do css
+```sh
+npm run build
 ```
 
 Acesse o projeto
