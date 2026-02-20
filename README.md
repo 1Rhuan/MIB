@@ -40,13 +40,13 @@ O **MIB Platform** é uma aplicação web construída com Laravel, projetada par
 - Nginx
 - Filas
 
----
+## Requisitos
 
-## 🐳 Ambiente com Docker
+- Docker & Docker compose
+- NodeJs
+- Conta [Mercado Pago Developers](https://www.mercadopago.com.br/developers)
 
-O projeto é totalmente containerizado para padronizar desenvolvimento e facilitar deploy.
-
-### Subir o ambiente
+## Como  Subir o ambiente
 
 ### Passo a passo
 Clone Repositório
@@ -59,18 +59,37 @@ cd MIB
 
 Suba os containers do projeto
 ```sh
-docker-compose up -d
+docker compose up -d
 ```
-
 
 Crie o Arquivo .env
 ```sh
 cp .env.example .env
 ```
 
+No `.env` defina suas credencias
+```sh
+APP_NAME=
+APP_URL=
+
+MERCADOPAGO_ACCESS_TOKEN=
+MERCADOPAGO_WEBHOOK_SECRET=
+
+DISCORD_WEBHOOK_URL=
+DISCORD_INVITE_URL=
+
+YOUTUBE_CHANNEL_URL=
+```
+
+
+No linux de permissão
+```sh
+sudo chmod -R 777 .
+```
+
 Acesse o container app
 ```sh
-docker-compose exec app bash
+docker compose exec app bash
 ```
 
 Instale as dependências do projeto
