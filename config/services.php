@@ -35,13 +35,13 @@ return [
         ],
     ],
 
-    'mercadopago' => [
-        'access_token' => env('MP_ACCESS_TOKEN'),
-        'webhook_secret' => env('MP_WEBHOOK_SECRET'),
-    ],
-
     'discord' => [
         'webhook_url' => env('DISCORD_WEBHOOK_URL'),
+        'invite_url' => env('DISCORD_INVITE_URL'),
+    ],
+
+    'youtube' => [
+        'chanel_url' => env('YOUTUBE_CHANEL_URL'),
     ],
 
 ];

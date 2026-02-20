@@ -1,14 +1,22 @@
 <?php
 
+use App\Http\Controllers\MercadoPagoWebhookController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\WebhookController;
+use Illuminate\Support\Facades\Route;
 
-Route::post('/orders', [OrderController::class, 'create'])
-    ->name('orders.create');
+Route::prefix('v1')
+    ->group(function () {
 
-Route::post("webhooks/payments", WebhookController::class)
-    ->name('webhooks.payments');
+        Route::get('/order/{reference}/status', [OrderController::class, 'status'])
+            ->name('order.payment.status');
+    }
+    );
 
-Route::post('order/create', [OrderController::class, 'create'])
-    ->name('order.create');
+Route::prefix('webhook')
+    ->group(function () {
 
+        Route::post('/payments', MercadoPagoWebhookController::class)
+            ->middleware('mercadopago.webhook')
+            ->name('webhook.mercadopago.payments');
+
+    });

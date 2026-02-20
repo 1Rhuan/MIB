@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static firstOrCreate(array $array, array $array1)
@@ -10,12 +11,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Customer extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
+        'name',
+        'email',
         'first_name',
         'last_name',
-        'nickname',
-        'email',
-        'platform',
-        'player_id',
+    ];
+
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
 }

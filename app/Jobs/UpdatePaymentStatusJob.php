@@ -2,9 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Gateways\MercadoPagoGateway;
 use App\Models\Payment;
-use App\Payments\Contracts\PaymentGateway;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -16,32 +17,48 @@ class UpdatePaymentStatusJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        private readonly int $gatewayId,
-    ){}
+        private readonly int $gatewayPaymentId,
+    ) {}
 
-    /**
-     * @param PaymentGateway $gateway
-     * @return void
-     */
-    public function handle(PaymentGateway $gateway): void
+    public function handle(MercadoPagoGateway $gateway): void
     {
-        $payment = Payment::where('gateway_payment_id', $this->gatewayId)->first();
+        $payment = Payment::where('external_payment_id', $this->gatewayPaymentId)->first();
 
-        if (!$payment) {
+        if (! $payment) {
             return;
         }
 
-        $gatewayPayment = $gateway->getPayment(
-            $payment->gateway_payment_id,
+        $gatewayResponse = $gateway->find(
+            $payment->external_payment_id,
         );
 
+        if ($payment->status === $gatewayResponse->status) {
+            return;
+        }
+
         $data = [
-            'status' => $gatewayPayment->status,
-            'status_detail' => $gatewayPayment->statusDetail,
+            'status' => $gatewayResponse->status,
+            'status_detail' => $gatewayResponse->status_detail,
         ];
 
-        if ($gatewayPayment->status == PaymentStatus::APPROVED) {
-            $data['date_approved'] = $gatewayPayment->dateApproved;
+        if ($gatewayResponse->status === PaymentStatus::APPROVED->value) {
+            $data['date_approved'] = $gatewayResponse->date_approved;
+
+            $payment->order()->update([
+                'status' => OrderStatus::PAID,
+            ]);
+        }
+
+        if ($gatewayResponse->status === PaymentStatus::EXPIRED->value) {
+            $payment->order()->update([
+                'status' => OrderStatus::CANCELLED,
+            ]);
+        }
+
+        if ($gatewayResponse->status === PaymentStatus::CANCELLED->value) {
+            $payment->order()->update([
+                'status' => OrderStatus::CANCELLED,
+            ]);
         }
 
         $payment->update($data);

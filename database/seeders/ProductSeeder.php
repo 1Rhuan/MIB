@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Symfony\Component\Uid\Ulid;
 
 class ProductSeeder extends Seeder
 {
@@ -17,45 +15,48 @@ class ProductSeeder extends Seeder
     {
         Product::insert([
             [
-                'name' => 'VIP Quinzenal',
-                'reference' => Str::ulid(),
-                'description' => 'Sem filas no servidor por 15 dias',
-                'price' => 9.9,
-                'active' => false,
-                'category' => 'services',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'VIP Mensal',
-                'reference' => Str::ulid(),
-                'description' => 'Sem filas no servidor por 1 mês',
+                'slug' => Str::slug('VIP Mensal'),
+                'title' => 'VIP Mensal',
+                'description' => 'Plano válido por 1 mês',
+                'benefits' => json_encode([
+                    'Sem filas',
+                    'Acesso a slots exclusivos',
+                    'Preferência na entrada do servidor',
+                ]),
                 'price' => 15.0,
-                'active' => true,
-                'category' => 'services',
+                'discount' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'VIP Trimestral',
-                'reference' => Str::ulid(),
-                'description' => 'Sem filas no servidor da por 3 mêses',
-                'price' => 40.0,
-                'active' => true,
-                'category' => 'services',
+                'slug' => Str::slug('VIP Trimestral'),
+                'title' => 'VIP Trimestral',
+                'description' => 'Plano válido por 3 meses',
+                'benefits' => json_encode([
+                    'Sem filas',
+                    'Acesso a slots exclusivos',
+                    'Preferência na entrada do servidor',
+                ]),
+                'price' => 45.0,
+                'discount' => 5.0,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'VIP Semestral',
-                'reference' => Str::ulid(),
-                'description' => 'Sem filas no servidor da por 6 mêses',
-                'price' => 79.0,
-                'active' => true,
-                'category' => 'services',
+                'slug' => Str::slug('VIP Anual'),
+                'title' => 'VIP Anual',
+                'description' => 'Plano válido por 12 meses',
+                'benefits' => json_encode([
+                    'Sem filas',
+                    'Acesso a slots exclusivos',
+                    'Preferência na entrada do servidor',
+                    'Tag patrocinador no Discord',
+                ]),
+                'price' => 180.0,
+                'discount' => 15.0,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }
